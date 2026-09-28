@@ -1,0 +1,23 @@
+{
+  "name": "the-lab",
+  "version": "1.0.0",
+  "description": "A hall of machines you can take apart in your browser: fusion reactor, Raptor 3, turbopump, factory line, Cybertruck, drive unit, humanoid, black hole, fighter jet engine, F1 car and a drone. Three.js, procedural, real physics.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "record": "node tools/record.mjs"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.0",
+    "typescript": "^5.5.4",
+    "vite": "^8.2.2"
+  }
+}
