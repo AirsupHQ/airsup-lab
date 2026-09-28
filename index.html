@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="google" content="notranslate" />
+    <meta name="theme-color" content="#0a0d14" />
+    <title>The lab: machines you can take apart in your browser</title>
+    <meta name="description" content="Open a fusion reactor and heat the plasma yourself, cut open a Raptor 3 and its turbopump, X-ray a full size Cybertruck on a dyno, watch three phase current spin its motor, and find the bottleneck in a drone production line." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="A star in a bottle" />
+    <meta property="og:description" content="Open a fusion reactor, heat the plasma and watch it fuse. Then walk over to a rocket engine and a factory line in the same lab." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="A star in a bottle" />
+    <meta name="twitter:description" content="Open a fusion reactor, heat the plasma and watch it fuse. Then walk over to a rocket engine and a factory line in the same lab." />
+    <link rel="icon" type="image/svg+xml" href="/airsup-lab/favicon.svg" />
+    <link rel="preload" href="/airsup-lab/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" crossorigin src="/airsup-lab/assets/index-BVPRa-VG.js"></script>
+    <link rel="stylesheet" crossorigin href="/airsup-lab/assets/index-PQ2QmMZL.css">
+  </head>
+  <body>
+    <div id="app">
+      <div id="labels" aria-hidden="true"></div>
+
+      <header class="intro" id="intro">
+        <a class="brand" href="./" aria-label="the lab"><img src="/airsup-lab/wordmark.svg" alt="the lab" width="180" height="20" /></a>
+        <div class="sr">
+          <div class="exhibit-text" data-exhibit="hall" hidden><h1>The lab</h1><p>A fusion reactor, a rocket engine, its turbopump, a production line, a Cybertruck and its drive unit, each one open so you can see how it works.</p></div>
+          <div class="exhibit-text" data-exhibit="fusion"><h1>A star in a bottle</h1><p>Fusion powers the Sun. Here it happens in a ring of plasma ten times hotter than the Sun&rsquo;s core, held off the walls by magnets.</p></div>
+          <div class="exhibit-text" data-exhibit="line" hidden><h1>Every line has one bottleneck</h1><p>Five stations build a drone. Change one of them and watch what happens to the whole line.</p></div>
+          <div class="exhibit-text" data-exhibit="engine" hidden><h1>Inside the Raptor 3</h1><p>Open the engine, follow the propellant and throttle it yourself.</p></div>
+          <div class="exhibit-text" data-exhibit="pump" hidden><h1>One shaft, two jobs</h1><p>The oxygen turbopump: hot gas spins a turbine, and on the same shaft a pump squeezes liquid oxygen from a few bar to hundreds.</p></div>
+          <div class="exhibit-text" data-exhibit="car" hidden><h1>Inside the Cybertruck</h1><p>A full size electric pickup on a dyno. X-ray it, pull it apart and follow the energy from 1,344 cells to three motors.</p></div>
+          <div class="exhibit-text" data-exhibit="jet" hidden><h1>Inside a fighter jet engine</h1><p>A full size afterburning turbofan on a test stand. Cut it open, follow the air, then light the afterburner.</p></div>
+          <div class="exhibit-text" data-exhibit="drone" hidden><h1>How a drone holds still</h1><p>An industrial quadcopter flying in a test cage. Hit it with wind and gusts, add a payload and watch the flight controller keep it on the spot.</p></div>
+          <div class="exhibit-text" data-exhibit="f1" hidden><h1>Inside a Formula 1 car</h1><p>A 2026 car at full size in a wind tunnel. Follow the air, see the pressure that holds it down, open it up and switch the wings between corner and straight mode.</p></div>
+          <div class="exhibit-text" data-exhibit="hole" hidden><h1>A black hole through a portal</h1><p>Light bent by gravity, traced for every pixel. Drop a probe in, open a wormhole, or dive through yourself.</p></div>
+          <div class="exhibit-text" data-exhibit="robot" hidden><h1>Inside a humanoid robot</h1><p>A walking robot at human size. Load it up, X-ray it and watch every actuator take the weight.</p></div>
+          <div class="exhibit-text" data-exhibit="motor" hidden><h1>How an electric motor turns</h1><p>Cut open a drive unit and watch three phase current spin a magnetic field that drags the rotor around.</p></div>
+        </div>
+      </header>
+
+      <section class="readout" id="readout" aria-live="polite">
+        <div class="chips" id="chips" data-exhibit-not="hall">
+          <div class="chip"><span class="k" id="k0">Thrust</span><span class="v" id="v0">280 tf</span></div>
+          <div class="chip"><span class="k" id="k1">Chamber</span><span class="v" id="v1">350 bar</span></div>
+          <div class="chip"><span class="k" id="k2">Burning</span><span class="v" id="v2">800 kg/s</span></div>
+        </div>
+        <div class="card" id="card"><p id="card-text"></p></div>
+      </section>
+
+      <aside class="panel" id="panel-fusion" data-exhibit="fusion">
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4 5</span></div>
+            <div class="seg" data-key="ffollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="plasma" class="c-plasma">Plasma</button><button data-v="magnets" class="c-ox">Magnets</button><button data-v="neutrons" class="c-n">Neutrons</button><button data-v="power" class="c-power">Power</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Plasma <span class="val" id="temp-val">150M °C</span></div>
+            <input type="range" id="temp" min="15" max="180" step="1" value="150" aria-label="Plasma temperature" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="fmode" role="group" aria-label="Scenario">
+              <button data-v="run">Running</button><button data-v="start">Start up</button><button data-v="disrupt">Disruption</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Reactor</div>
+            <div class="seg" data-key="fview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-line" data-exhibit="line" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Motors station</div>
+            <div class="seg" data-key="robots" role="group" aria-label="Robots at the motors station">
+              <button data-v="1">1 robot</button><button data-v="2">2 robots</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Frame station <span class="val" id="fs-val">1.0×</span></div>
+            <input type="range" id="framespeed" min="50" max="200" step="5" value="100" aria-label="Frame station speed" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Buffers</div>
+            <div class="seg" data-key="buffer" role="group" aria-label="Buffers">
+              <button data-v="0">None</button><button data-v="2">2 each</button><button data-v="6">6 each</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Breakdowns</div>
+            <div class="seg" data-key="breakdowns" role="group" aria-label="Breakdowns">
+              <button data-v="off">Off</button><button data-v="on">On</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-engine" data-exhibit="engine" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4</span></div>
+            <div class="seg" data-key="follow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="oxygen" class="c-ox">Oxygen</button><button data-v="methane" class="c-ch4">Methane</button><button data-v="fire" class="c-fire">Fire</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Throttle <span class="val" id="thr-val">100%</span></div>
+            <input type="range" id="throttle" min="40" max="100" step="1" value="100" aria-label="Throttle" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Altitude</div>
+            <div class="seg" data-key="alt" role="group" aria-label="Altitude">
+              <button data-v="0">Sea level</button><button data-v="14">14 km</button><button data-v="90">Vacuum</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Engine</div>
+            <div class="seg" data-key="view" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" id="tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" id="help" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-pump" data-exhibit="pump" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow</div>
+            <div class="seg" data-key="pfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="oxygen" class="c-ox">Oxygen</button><button data-v="gas" class="c-gas">Hot gas</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Shaft speed <span class="val" id="spd-val">100%</span></div>
+            <input type="range" id="speed" min="0" max="100" step="1" value="100" aria-label="Shaft speed" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="pmode" role="group" aria-label="Scenario">
+              <button data-v="run">Running</button><button data-v="start">Spin start</button><button data-v="cav">Cavitation</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Pump</div>
+            <div class="seg" data-key="pview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon toggle" id="strobe" title="Strobe light: freeze the blades" aria-label="Strobe light" aria-pressed="false"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-drone" data-exhibit="drone" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow</div>
+            <div class="seg" data-key="dfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="air" class="c-ox">Air</button><button data-v="control" class="c-gas">Control</button><button data-v="sensors" class="c-ox">Sensors</button><button data-v="power" class="c-power">Power</button>
+            </div>
+          </div>
+          <div class="group">
+            <div class="glabel">Payload</div>
+            <div class="seg" data-key="dpayload" role="group" aria-label="Payload">
+              <button data-v="off">Off</button><button data-v="on" class="c-fire">2.5 kg</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Air</div>
+            <div class="seg" data-key="dmode" role="group" aria-label="Wind">
+              <button data-v="hover">Still</button><button data-v="wind" class="c-ox">Wind</button><button data-v="gust" class="c-fire">Gusts</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Drone</div>
+            <div class="seg" data-key="dview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-f1" data-exhibit="f1" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow</div>
+            <div class="seg" data-key="f1follow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="air" class="c-ox">Air</button><button data-v="pressure" class="c-fire">Pressure</button><button data-v="power" class="c-power">Power</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Speed <span class="val" id="f1speed-val">300 km/h</span></div>
+            <input type="range" id="f1speed" min="80" max="350" step="5" value="300" aria-label="Speed" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Mode</div>
+            <div class="seg" data-key="f1mode" role="group" aria-label="Mode">
+              <button data-v="corner">Corner</button><button data-v="straight" class="c-ox">Straight</button><button data-v="brake" class="c-fire">Brake</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Car</div>
+            <div class="seg" data-key="f1view" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-jet" data-exhibit="jet" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4 5 6</span></div>
+            <div class="seg" data-key="jfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="air" class="c-ox">Air</button><button data-v="core" class="c-gas">Core</button><button data-v="fire" class="c-fire">Fire</button><button data-v="heat" class="c-fire">Heat</button><button data-v="spools" class="c-power">Spools</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Throttle <span class="val" id="jthr-val">max + AB</span></div>
+            <input type="range" id="jthrottle" min="20" max="100" step="1" value="100" aria-label="Throttle" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Afterburner</div>
+            <div class="seg" data-key="jab" role="group" aria-label="Afterburner">
+              <button data-v="off">Off</button><button data-v="on" class="c-fire">On</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Engine</div>
+            <div class="seg" data-key="jview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-hole" data-exhibit="hole" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Portal</div>
+            <div class="seg" data-key="hview" role="group" aria-label="Portal">
+              <button data-v="bh">Black hole</button><button data-v="wh" class="c-power">Wormhole</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Mass <span class="val" id="hmass-val">Sgr A*</span></div>
+            <input type="range" id="hmass" min="0" max="100" step="1" value="64" aria-label="Mass" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="hmode" role="group" aria-label="Scenario">
+              <button data-v="watch">Watch</button><button data-v="probe">Drop a probe</button><button data-v="dive">Dive in</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-robot" data-exhibit="robot" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4</span></div>
+            <div class="seg" data-key="rfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="actuators" class="c-power">Actuators</button><button data-v="power" class="c-ox">Power</button><button data-v="hands" class="c-fire">Hands</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Payload <span class="val" id="payload-val">0 kg</span></div>
+            <input type="range" id="payload" min="0" max="20" step="1" value="0" aria-label="Payload" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="rmode" role="group" aria-label="Scenario">
+              <button data-v="walk">Walk</button><button data-v="squat">Squat</button><button data-v="stand">Stand</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Robot</div>
+            <div class="seg" data-key="rview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="xray">X-ray</button><button data-v="exploded">Exploded</button><button data-v="actuator">Actuator</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-car" data-exhibit="car" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4</span></div>
+            <div class="seg" data-key="cfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="energy" class="c-ox">Energy</button><button data-v="motors" class="c-power">Motors</button><button data-v="structure" class="c-fire">Structure</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Speed <span class="val" id="cspd-val">100 km/h</span></div>
+            <input type="range" id="cspeed" min="0" max="200" step="1" value="100" aria-label="Speed" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="cmode" role="group" aria-label="Scenario">
+              <button data-v="cruise">Cruise</button><button data-v="launch">Launch</button><button data-v="regen">Regen</button><button data-v="steer">Steer</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Truck</div>
+            <div class="seg" data-key="cview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="xray">X-ray</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Air suspension</div>
+            <div class="seg" data-key="cheight" role="group" aria-label="Ride height">
+              <button data-v="low">Low</button><button data-v="normal">Normal</button><button data-v="high">High</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel" id="panel-motor" data-exhibit="motor" hidden>
+        <div class="row">
+          <div class="group grow">
+            <div class="glabel">Follow <span class="keys">1 2 3 4</span></div>
+            <div class="seg" data-key="mfollow" role="group" aria-label="Follow">
+              <button data-v="all">All</button><button data-v="current" class="c-power">Current</button><button data-v="field" class="c-plasma">Field</button><button data-v="gears" class="c-fire">Gears</button>
+            </div>
+          </div>
+          <div class="group slider">
+            <div class="glabel">Motor <span class="val" id="rpm-val">7,000 rpm</span></div>
+            <input type="range" id="rpm" min="0" max="16000" step="100" value="7000" aria-label="Motor speed" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="group">
+            <div class="glabel">Scenario</div>
+            <div class="seg" data-key="mmode" role="group" aria-label="Scenario">
+              <button data-v="drive">Drive</button><button data-v="regen">Regen</button><button data-v="coast">Coast</button>
+            </div>
+          </div>
+          <div class="group grow">
+            <div class="glabel">Drive unit</div>
+            <div class="seg" data-key="mview" role="group" aria-label="View">
+              <button data-v="whole">Whole</button><button data-v="cut">Cutaway</button><button data-v="exploded">Exploded</button>
+            </div>
+          </div>
+          <div class="icons">
+            <button class="icon tour" title="Play the tour" aria-label="Play the tour"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>
+            <button class="icon helpbtn" title="How to use" aria-label="How to use"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 14.2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm1.3-4.9c-.6.4-.8.6-.8 1.2v.3h-1.9v-.4c0-1.2.5-1.8 1.3-2.4.7-.5 1-.8 1-1.4 0-.6-.5-1-1.2-1-.8 0-1.3.5-1.4 1.3L8.4 9.7C8.6 8 9.9 6.8 12 6.8c2 0 3.3 1.1 3.3 2.7 0 1.3-.8 2-2 2.8z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+      </aside>
+
+      <nav class="exhibits" id="exhibits" aria-label="Exhibits">
+        <button data-ex="hall" class="hallbtn" title="The whole lab" aria-label="The whole lab"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 10.5 12 4l9 6.5V20h-6v-5.5H9V20H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+        <button data-ex="fusion" class="on"><span class="dot"></span><span><b>Fusion reactor</b><i>tokamak</i></span></button>
+        <button data-ex="engine"><span class="dot"></span><span><b>Raptor 3</b><i>rocket engine</i></span></button>
+        <button data-ex="pump"><span class="dot"></span><span><b>Turbopump</b><i>oxygen side</i></span></button>
+        <button data-ex="line"><span class="dot"></span><span><b>Production line</b><i>drones</i></span></button>
+        <button data-ex="motor"><span class="dot"></span><span><b>Drive unit</b><i>electric motor</i></span></button>
+        <button data-ex="car"><span class="dot"></span><span><b>Cybertruck</b><i>full size</i></span></button>
+        <button data-ex="robot"><span class="dot"></span><span><b>Humanoid</b><i>walking robot</i></span></button>
+        <button data-ex="hole"><span class="dot"></span><span><b>Black hole</b><i>and a wormhole</i></span></button>
+        <button data-ex="jet"><span class="dot"></span><span><b>Jet engine</b><i>afterburner</i></span></button>
+        <button data-ex="f1"><span class="dot"></span><span><b>F1 car</b><i>2026 rules</i></span></button>
+        <button data-ex="drone"><span class="dot"></span><span><b>Drone</b><i>in a flight cage</i></span></button>
+      </nav>
+
+      <div class="corner">
+        <button class="icon" id="share" title="Share" aria-label="Share"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M17 16.2c-.8 0-1.5.3-2 .8l-6.3-3.6c.1-.3.1-.6.1-.9s0-.6-.1-.9L15 8c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .3 0 .6.1.9L7.8 10.3C7.3 9.8 6.6 9.5 5.8 9.5c-1.7 0-3 1.3-3 3s1.3 3 3 3c.8 0 1.5-.3 2-.8l6.3 3.7c-.1.3-.1.5-.1.8 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9-1.2-3-2.8-3z" fill="currentColor"/></svg></button>
+      </div>
+
+      <div class="hint" id="hint">Drag to orbit · scroll to zoom</div>
+      <div class="toast" id="toast" role="status"></div>
+
+      <div class="help" id="helpbox" hidden>
+        <div class="help-card">
+          <h2>How to use it</h2>
+          <p><b>Drag</b> to orbit, <b>scroll</b> or pinch to zoom, <b>right drag</b> to pan.</p>
+          <p>Pick a machine at the bottom, or press the house to see the whole lab and click any machine in it.</p>
+          <div data-exhibit="fusion">
+            <p><b>Cutaway</b> slices the reactor in half. <b>Follow</b> lights up the plasma, the magnets or the neutrons, and <b>Power</b> follows the heat all the way to the lights of a city. The <b>plasma</b> slider sets the temperature, and the scenarios show a start up and a disruption.</p>
+            <p class="fine">The machine is modelled on ITER's published design, at small scale. Fusion power follows the measured deuterium tritium reaction rate at fixed density, tuned so 150 million °C gives ITER's target of 500 MW from 50 MW of heating (Q = 10). Losses are a simple constant confinement time. ITER has not made plasma yet; these are its design goals.</p>
+          </div>
+          <div data-exhibit="engine" hidden>
+            <p><b>Cutaway</b> slices the engine in half so you can see every passage. <b>Follow</b> lights up one propellant from the tank to the flame.</p>
+            <p><b>Throttle</b> and <b>altitude</b> change the chamber pressure and the air outside, which is what shapes the plume and its shock diamonds.</p>
+            <p class="fine">The model is simplified from public photos and diagrams. Thrust and specific impulse follow SpaceX's published Raptor 3 figures (280 tf, 350 s) and mass flow follows from those two. Chamber pressure uses the 350 bar SpaceX has reached in Raptor testing. Everything else is an estimate.</p>
+          </div>
+          <div data-exhibit="pump" hidden>
+            <p><b>Follow</b> the oxygen or the hot gas through the pump, change the <b>shaft speed</b>, and try a spin start or cavitation. The strobe freezes the blades.</p>
+            <p class="fine">Flow follows the Raptor 3 figures; pressure and power scale with speed squared and cubed from community estimates.</p>
+          </div>
+          <div data-exhibit="line" hidden>
+            <p>Every drone passes five stations. Add a second <b>robot</b> at the motors station, speed up the <b>frame station</b>, change the <b>buffers</b> between stations or switch on random <b>breakdowns</b>, and watch output, work in progress and lead time.</p>
+            <p class="fine">A small discrete event simulation with fixed cycle times (40, 60, 45, 35 and 30 s) and random failures, running twenty times faster than real time. Lead time uses Little's law: work in progress divided by output.</p>
+          </div>
+          <div data-exhibit="jet" hidden>
+            <p><b>Cutaway</b> opens the engine. <b>Follow</b> the air around the core, the air through it, the fire, or the two spinning shafts. The <b>afterburner</b> sprays fuel into the exhaust and lights it again.</p>
+            <p class="fine">Modelled on the public description of the Pratt &amp; Whitney F135 that powers the F-35: 5.59 m long, 1.17 m across, about 1,700 kg, a three stage fan of one piece titanium blisks (the first hollow and wide chord) in a composite case, six compressor stages, one high and two low pressure turbine stages on counter rotating shafts, a bypass ratio of 0.57 and an overall pressure ratio of 28. The afterburner has no spray bars or flame holders: fuel comes out of curved vanes that also hide the turbine. The nozzle has two offset sets of 15 flaps whose chevrons make the sawtooth edge. Thrust follows the published 28,000 lbf dry and 43,000 lbf with afterburner; the internal layout, temperatures and fuel flows are estimates.</p>
+          </div>
+          <div data-exhibit="drone" hidden>
+            <p><b>Wind</b> turns on the fan wall, <b>Gusts</b> makes it unsteady, and the <b>payload</b> adds 2.5 kg. <b>Follow</b> the air through the props, the control signals from the flight controller, what the sensors see, or the power from the batteries.</p>
+            <p class="fine">A generic industrial quadcopter at full size: 6.5 kg, 0.9 m between opposite motors, 21 inch props, two 263 Wh packs. The flight is simulated live: a rigid body held by a cascaded position and attitude controller, mixed into four motor thrusts. Power uses momentum theory with a figure of merit of 0.7 and 85% drive efficiency; rotor speed uses a thrust coefficient of 0.1. Drag area 0.12 m². Props are drawn slower than they really turn so you can see them.</p>
+          </div>
+          <div data-exhibit="f1" hidden>
+            <p><b>Follow</b> the air over, around and under the car, see the <b>pressure</b> on every surface, or trace the <b>power</b> from fuel and battery to the wheels. <b>Speed</b> sets the wind tunnel. <b>Straight</b> lays the wing flaps flat, <b>Brake</b> glows the discs and charges the battery.</p>
+            <p class="fine">A 2026 regulation car at full size from the public FIA rules: 3.4 m wheelbase, 1.9 m wide, 768 kg minimum, 18 inch wheels, active aero, about 400 kW from the V6 and 350 kW from the electric motor. Downforce and drag use ½ρv² with lift and drag areas we estimated for this kind of car (about 3.3 and 1.05 m² in corner mode, 1.3 and 0.62 m² in straight mode) and a tyre grip of 1.6; teams do not publish theirs. The pressure map is an illustration of where pressure is high and low, not a CFD result. No team livery.</p>
+          </div>
+          <div data-exhibit="hole" hidden>
+            <p>The view through the portal is traced one ray per pixel through curved spacetime. <b>Mass</b> changes the numbers, not the picture: a black hole looks the same at any size, only the scale changes. <b>Drop a probe</b> to watch time slow at the horizon, or <b>dive in</b>.</p>
+            <p class="fine">Black hole: exact light paths in the Schwarzschild metric (no spin), a thin disk from the innermost stable orbit at three horizon radii, with relativistic Doppler beaming and gravitational redshift. Wormhole: the Ellis metric, a real solution of Einstein's equations that would need negative energy to stay open. Inside the horizon every path ends at the singularity; the jump to another universe in the dive comes from the idealised maths of an eternal black hole (the Einstein Rosen bridge), which closes too fast for anything to cross. Nobody knows what really happens there.</p>
+          </div>
+          <div data-exhibit="robot" hidden>
+            <p><b>Payload</b> puts a box in its hands. <b>Follow</b> colours every actuator by how hard it is working, traces the power from the battery in the chest, or looks at the hands, whose fingers are pulled by tendons from motors in the forearm.</p>
+            <p class="fine">A general humanoid at human scale, after the public figures for Tesla's Optimus: 1.73 m, a 2.3 kWh battery, about 100 W standing and 500 W walking, and 28 body actuators of six kinds shown at AI Day 2022: rotary joints of 20, 110 and 180 Nm (frameless motor, strain wave gear, crossed roller bearing, encoder, torque sensor) and linear screws of 500, 3,900 and 8,000 N (motor and planetary roller screw with a force sensor). Where each one sits is our best reading of public images; torques, forces and runtime are estimates from simple statics.</p>
+          </div>
+          <div data-exhibit="car" hidden>
+            <p><b>X-ray</b> sweeps a scanner over the truck and shows what the steel hides. <b>Follow</b> the energy from the battery to the motors, the motors themselves, or the cast structure. Set a <b>speed</b>, or try a launch and regenerative braking. The truck stays on the dyno; its wheels drive the rollers.</p>
+            <p class="fine">Drawn from public photos at full size (5.68 m long, 3.81 m wheelbase). Mass 3,104 kg, 630 kW from three motors, a 123 kWh pack of 1,344 cells. Power follows air drag (drag area about 1.04 m²), rolling resistance of 1.1% and an 88% efficient drivetrain. Range is at a steady speed from a full pack. Tesla does not publish every detail; the inside layout is simplified.</p>
+          </div>
+          <div data-exhibit="motor" hidden>
+            <p><b>Cutaway</b> opens the motor across the middle. <b>Current</b> lights each of the 54 slots in the colour of its phase, <b>Field</b> shows the north and south poles the currents make, and <b>Gears</b> opens the two stage gearbox. <b>Regen</b> turns the motor into a generator.</p>
+            <p class="fine">A permanent magnet motor with 54 slots and six poles, geared about 12 to 1 (17/55 then 19/72). Motion is shown about 600 times slower than real so you can follow it. Layout simplified from public teardowns.</p>
+          </div>
+          <button class="close" id="help-close">Got it</button>
+        </div>
+      </div>
+
+      <div class="loader" id="loader">
+        <img src="/airsup-lab/wordmark.svg" alt="" width="126" height="14" />
+        <div class="bar"><i id="loadbar"></i></div>
+        <span id="loadtext">Building the lab</span>
+      </div>
+    </div>
+    <noscript><p style="color:#fff;font-family:sans-serif;padding:24px">This interactive lab needs JavaScript and WebGL.</p></noscript>
+  </body>
+</html>
